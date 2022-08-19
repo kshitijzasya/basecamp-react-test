@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { Link } from "react-router-dom";
 import Contact from "./Contact";
 import {
@@ -11,12 +11,15 @@ import {
 } from "react-bootstrap";
 
 function ContactListModal(props) {
+  //Controlled Search Input State
   const [filterContactInput, setFilterInput] = useState("");
   const [show, setShow] = useState(true);
+  //Global state for Modal C
   const { contacts, toggleContact } = props;
-
+  //State for whether to display contact with even ID or not!
   const [showEven, setEven] = useState(false);
 
+  
   const handleFilterChange = (evt) => {
     let filter = evt.currentTarget.value;
     setFilterInput(filter.toLowerCase());
@@ -30,7 +33,7 @@ function ContactListModal(props) {
 
   return (
     <>
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show}>
         <Modal.Header>
           <Modal.Title>{props.title}</Modal.Title>
           <ButtonGroup>
@@ -50,6 +53,7 @@ function ContactListModal(props) {
               value={filterContactInput}
               placeholder="Filter.."
               aria-label="Filter.."
+              autoComplete="off"
             />
             <Button variant="success">Search</Button>
           </InputGroup>

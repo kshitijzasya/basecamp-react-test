@@ -1,90 +1,19 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import ContactListModal from "./components/ContactListModal";
 import DisplayContact from "./components/DisplayContact";
+import store from './store'
 
-const contacts = [
-  {
-    id: 1,
-    first_name: "Alex",
-    last_name: "Smith",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-
-  {
-    id: 2,
-    first_name: "Miley",
-    last_name: "Stewart",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 3,
-    first_name: "Mark",
-    last_name: "Zuck",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 4,
-    first_name: "Rahul",
-    last_name: "Sharma",
-    country_id: 108,
-    phone_number: "9404480524",
-  },
-  {
-    id: 5,
-    first_name: "Priya",
-    last_name: "Sharma",
-    country_id: 108,
-    phone_number: "9404480524",
-  },
-  {
-    id: 6,
-    first_name: "Kevin",
-    last_name: "Alderson",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 7,
-    first_name: "Chloe",
-    last_name: "Parker",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 8,
-    first_name: "Angela",
-    last_name: "Smith",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 9,
-    first_name: "Jenny",
-    last_name: "Smith",
-    country_id: 226,
-    phone_number: "9404480524",
-  },
-  {
-    id: 10,
-    first_name: "Priyanka",
-    last_name: "",
-    country_id: 108,
-    phone_number: "9404480524",
-  },
-];
 
 function App() {
-  const [contactsList, setContacts] = useState(contacts);
+  const contactsList = store.getState()
+
   const [showContact, setContact] = useState(undefined);
 
   const toggleContact = (index) => {
-    return setContact(contacts.find((contact) => contact.id === index));
+    return setContact(contactsList.find((contact) => contact.id === index));
   };
 
   const USContacts = contactsList.filter(
