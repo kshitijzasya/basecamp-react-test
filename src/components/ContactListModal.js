@@ -1,6 +1,7 @@
-import {  useState } from "react";
+import {  useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Contact from "./Contact";
+import UseContactApi from "../hooks/UseContactApi";
 import {
   Modal,
   ButtonGroup,
@@ -10,15 +11,41 @@ import {
   Form,
 } from "react-bootstrap";
 
+import { useSelector,useDispatch } from "react-redux";
+
 function ContactListModal(props) {
   //Controlled Search Input State
   const [filterContactInput, setFilterInput] = useState("");
   const [show, setShow] = useState(true);
   //Global state for Modal C
-  const { contacts, toggleContact } = props;
+  const { toggleContact,onSearch,USContactsOnly,contacts,setAllContacts,setUsContacts} = props;
+
+
   //State for whether to display contact with even ID or not!
   const [showEven, setEven] = useState(false);
 
+  const reduxContacts = useSelector(state => state)
+
+  useEffect(()=> {
+    dispatch({type:'CLEAR'})
+
+    if(USContactsOnly){
+      setUsContacts()
+    dispatch({type:'US_ONLY_CONTACTS',data:[...contacts]})
+    }else {
+      setAllContacts()
+    dispatch({type:'ALL_TYPE_CONTACTS',data:[...contacts]})
+    }
+  },[])
+
+
+    let dispatch =  useDispatch()
+
+  const handleClick = () => {
+
+    // clearContacts()
+    onSearch(filterContactInput)
+  }
   
   const handleFilterChange = (evt) => {
     let filter = evt.currentTarget.value;
@@ -33,7 +60,7 @@ function ContactListModal(props) {
 
   return (
     <>
-      <Modal show={show}>
+      <Modal show={show} scrollable>
         <Modal.Header>
           <Modal.Title>{props.title}</Modal.Title>
           <ButtonGroup>
@@ -55,13 +82,15 @@ function ContactListModal(props) {
               aria-label="Filter.."
               autoComplete="off"
             />
-            <Button variant="success">Search</Button>
+            <Button variant="success" onClick={handleClick}>Search</Button>
           </InputGroup>
           <ListGroup>
+
+          {!contacts.length ? <p className="text-center fw-bold">Loading...</p> : ''}
+
+
             {renderingContact.map((contact, index) => {
-              if (
-                contact.first_name.toLowerCase().indexOf(filterContactInput) >
-                -1
+              if (contact.first_name && contact.first_name.toLowerCase().indexOf(filterContactInput) > -1
               ) {
                 return (
                   <Contact

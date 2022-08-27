@@ -17,13 +17,19 @@ function DisplayContact(props) {
       <Modal.Header >
         <Modal.Title>
           {`${contact.first_name} ${contact.last_name}`} From{" "}
-          {`${contact.country_id === 226 ? "🇺🇸" : "🇮🇳"}`}
+          {`${contact.country_id === 226 && "🇺🇸" }`}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p className="text-lead" >Number
         <span className="ms-1 fw-bold font-monospace">
         {contact.phone_number}
+        </span>
+</p>
+
+        <p className="text-lead" >Email
+        <span className="ms-1 fw-bold font-monospace">
+        {contact.email ? contact.email : 'No Email Found'}
         </span>
 </p>
         </Modal.Body>

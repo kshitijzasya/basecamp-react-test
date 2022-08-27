@@ -1,14 +1,14 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
+import {  useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import ContactListModal from "./components/ContactListModal";
 import DisplayContact from "./components/DisplayContact";
-import store from './store'
-
+import UseContactApi from "./hooks/UseContactApi";
 
 function App() {
-  const contactsList = store.getState()
+
+  const [contactsList, setAllContacts,setUsContacts,setSearchContacts,clearContacts] = UseContactApi();
 
   const [showContact, setContact] = useState(undefined);
 
@@ -16,9 +16,6 @@ function App() {
     return setContact(contactsList.find((contact) => contact.id === index));
   };
 
-  const USContacts = contactsList.filter(
-    (contact) => contact.country_id === 226
-  );
 
   return (
     <>
@@ -54,7 +51,12 @@ function App() {
                 USContactsOnly={false}
                 title={"Contacts"}
                 toggleContact={toggleContact}
+                clearContacts={clearContacts}
                 contacts={contactsList}
+                onSearch={setSearchContacts}
+                setAllContacts={setAllContacts}
+                setUsContacts={setUsContacts}
+
               />
             }
           />
@@ -64,9 +66,13 @@ function App() {
             element={
               <ContactListModal
                 title={"Contacts From US 🇺🇸"}
-                contacts={USContacts}
+                contacts={contactsList}
                 toggleContact={toggleContact}
+                clearContacts={clearContacts}
                 USContactsOnly={true}
+                onSearch={setSearchContacts}
+                setAllContacts={setAllContacts}
+                setUsContacts={setUsContacts}
               />
             }
           />
