@@ -1,7 +1,7 @@
 import {  useEffect, useState } from "react";
+import useDebouncedEffect from "../hooks/useDebouncedEffect" 
 import { Link } from "react-router-dom";
 import Contact from "./Contact";
-import UseContactApi from "../hooks/UseContactApi";
 import {
   Modal,
   ButtonGroup,
@@ -11,7 +11,7 @@ import {
   Form,
 } from "react-bootstrap";
 
-import { useSelector,useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function ContactListModal(props) {
   //Controlled Search Input State
@@ -20,11 +20,13 @@ function ContactListModal(props) {
   //Global state for Modal C
   const { toggleContact,onSearch,USContactsOnly,contacts,setAllContacts,setUsContacts} = props;
 
+  useDebouncedEffect(() => onSearch(filterContactInput), [filterContactInput], 500);
+
+
 
   //State for whether to display contact with even ID or not!
   const [showEven, setEven] = useState(false);
 
-  const reduxContacts = useSelector(state => state)
 
   useEffect(()=> {
     dispatch({type:'CLEAR'})
@@ -43,11 +45,14 @@ function ContactListModal(props) {
 
   const handleClick = () => {
 
-    // clearContacts()
     onSearch(filterContactInput)
   }
   
   const handleFilterChange = (evt) => {
+
+    dispatch({type:'CLEAR'});
+
+
     let filter = evt.currentTarget.value;
     setFilterInput(filter.toLowerCase());
   };

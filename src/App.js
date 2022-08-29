@@ -29,12 +29,6 @@ function App() {
               US Only!
             </Link>
           </div>
-          <div>
-            <p className="text-muted text-center mt-2">
-              The API Token was not working(expired) so i have implemented the
-              static data with the same schema.
-            </p>
-          </div>
         </div>
         {showContact && (
           <DisplayContact

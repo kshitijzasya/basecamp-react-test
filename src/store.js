@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 
-export function contactReducer(state = ['kartik'], action) {
+export function contactReducer(state = [], action) {
 
     switch(action.type){
       case 'ALL_TYPE_CONTACTS':
