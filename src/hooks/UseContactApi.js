@@ -22,7 +22,7 @@ export function requestContacts(stateFn,USOnly = false,query){
 
 
 function UseContactApi(){
-      const [contactsList, setContacts] = useState([{'name':'All Type!'}]) 
+      const [contactsList, setContacts] = useState([]) 
 
       const setAllContacts = () => {
          requestContacts(setContacts,false);
